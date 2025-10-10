@@ -7,21 +7,30 @@ class Player:
     ships = []
     order = 0
     tried_coordinates = []
-    game_board = board.Board()
+    game_board = None
+    ship_board = None
     
     def __init__(self, name, order):
         self.ships = []
         self.name = name
         self.order = order
+        self.game_board = board.Board()
+        self.ship_board = board.Board()
         
     def add_ship(self, coordinates):
+        if not ship.check_if_coordinates_are_valid_for_ship(coordinates):
+            print("These are invalid coordinates for a ship")
+            return
         for existingShip in self.ships:
             if(existingShip.check_if_contains_coordinates(coordinates)):
+                print("You already have a ship on these coordinates!")
                 return False
             elif existingShip.size == len(coordinates):
+                print("You already have a ship this size!")
                 return False
             
         self.ships.append(ship.Ship(coordinates))
+        self.ship_board.ship_at(coordinates)
         return True
         
     def validate_shot(self, coordinates):
