@@ -12,6 +12,7 @@ class Player:
     
     def __init__(self, name, order):
         self.ships = []
+        self.tried_coordinates = []
         self.name = name
         self.order = order
         self.game_board = board.Board()
@@ -33,19 +34,26 @@ class Player:
         self.ship_board.ship_at(coordinates)
         return True
         
-    def validate_shot(self, coordinates):
+    def validate_shot_against(self, coordinates, player):
         if coordinates in self.tried_coordinates:
-            return False
+            return shot_result.Shot_Result.TRIED
     
         self.tried_coordinates.append(coordinates)
+
+        result = player.did_shot_land(coordinates)
+        if(bool(result.value)):
+            self.game_board.hit_at(coordinates)
+        else:
+            self.game_board.miss_at(coordinates)
+        
+        return result
     
+    def did_shot_land(self, shot_coordinates):
         for ship in self.ships:
-            result = ship.try_hit(coordinates)
-            if bool(result):
-                self.game_board.hit_at(coordinates)
+            result = ship.try_hit(shot_coordinates)
+            if bool(result.value):
                 return result
     
-        self.game_board.miss_at(coordinates)
         return shot_result.Shot_Result(0)
     
     def has_lost(self):

@@ -8,16 +8,18 @@ class Ship:
     
     def __init__(self, coordinates):
         self.size = len(coordinates)
-        
+        self.coordinates = []
+        self.is_sunk = False
         for coor in coordinates:
             self.coordinates.append(coordinate.Coordinate(coor[0], coor[1]))
         
-    def try_hit(self, coordinates):
+    def try_hit(self, tried_coordinates):
         result = False
         for coor in self.coordinates:
-            result |= coor.hit(coordinates[0], coordinates[1])
+            result |= coor.hit(tried_coordinates[0], tried_coordinates[1])
         
         if self.check_if_sunked():
+            self.is_sunk = True
             return shot_result.Shot_Result.SINKED
         
         return shot_result.Shot_Result(int(result))
@@ -38,7 +40,7 @@ class Ship:
         return False
     
     def __repr__(self):
-        return f"Ship of size {self.size}"
+        return f"Ship of size {self.size}, is {self.is_sunk} sunked, with these coordinates {self.coordinates}"
 
 def check_if_coordinates_are_valid_for_ship(coordinates):
     last_coordinates_checked = ""

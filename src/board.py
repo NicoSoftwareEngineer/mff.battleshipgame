@@ -1,4 +1,5 @@
 import utils.coordinate as coordinate
+import utils.colors as colors
 
 class Board:
     missed_coordinates = None
@@ -26,14 +27,48 @@ class Board:
         for i in range(10):
             line = f"{chr(i + 65) }"
             for j in range(10):
-                tried_coordinate = coordinate.Coordinate(i, chr(j + 65))
+                tried_coordinate = coordinate.Coordinate(j, chr(i + 65))
                 if tried_coordinate in self.missed_coordinates:
-                    line += " O "
+                    line += colors.ANSI.color_text(36) + " O " + colors.ANSI.color_text(37)
                 elif tried_coordinate in self.hit_coordinates:
-                    line += " X "
+                    line += colors.ANSI.color_text(31) + " X " + colors.ANSI.color_text(37)
                 elif tried_coordinate in self.boat_coordinates:
-                    line += " Ψ "
+                    line += colors.ANSI.color_text(32) + " Ψ " + colors.ANSI.color_text(37)
                 else:
-                    line += " ~ "
+                    line += colors.ANSI.color_text(34) + " ~ " + colors.ANSI.color_text(37)
+            
             print(line)
+
+    def print_joined(self, second_board, first_heading = "", second_heading = ""):
+        if(first_heading != "" and second_heading != ""):
+            print(f"{first_heading} {second_heading}")
         
+        print("  0  1  2  3  4  5  6  7  8  9 \t\t  0  1  2  3  4  5  6  7  8  9 ")
+        for i in range(10):
+            line = f"{chr(i + 65) }"
+            for j in range(10):
+                tried_coordinate = coordinate.Coordinate(j, chr(i + 65))
+                if tried_coordinate in self.missed_coordinates:
+                    line += colors.ANSI.color_text(36) + " O " + colors.ANSI.color_text(37)
+                elif tried_coordinate in self.hit_coordinates:
+                    line += colors.ANSI.color_text(31) + " X " + colors.ANSI.color_text(37)
+                elif tried_coordinate in self.boat_coordinates:
+                    line += colors.ANSI.color_text(32) + " Ψ " + colors.ANSI.color_text(37)
+                else:
+                    line += colors.ANSI.color_text(34) + " ~ " + colors.ANSI.color_text(37)
+            line += "\t\t"
+            line += f"{chr(i + 65) }"
+            for j in range(10):
+                tried_coordinate = coordinate.Coordinate(j, chr(i + 65))
+                if tried_coordinate in second_board.missed_coordinates:
+                    line += colors.ANSI.color_text(36) + " O " + colors.ANSI.color_text(37)
+                elif tried_coordinate in second_board.hit_coordinates:
+                    line += colors.ANSI.color_text(31) + " X " + colors.ANSI.color_text(37)
+                elif tried_coordinate in second_board.boat_coordinates:
+                    line += colors.ANSI.color_text(32) + " Ψ " + colors.ANSI.color_text(37)
+                else:
+                    line += colors.ANSI.color_text(34) + " ~ " + colors.ANSI.color_text(37)
+            
+            print(line)
+
+
