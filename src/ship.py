@@ -18,7 +18,7 @@ class Ship:
         for coor in self.coordinates:
             result |= coor.hit(tried_coordinates[0], tried_coordinates[1])
         
-        if self.check_if_sunked():
+        if self.check_if_sunked() and result:
             self.is_sunk = True
             return shot_result.Shot_Result.SINKED
         

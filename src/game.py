@@ -16,8 +16,12 @@ class Game:
         for i in range(2):
             name = input(f"Please enter name of player{i + 1}:\n ")
             self.players.append(player.Player(name, i))
+            
         for i in range(len(self.players)):
-            while len(self.players[i].ships) != 1:
+            cmd_utils.clear()
+            input(f"It's {self.players[i].name} turn to choose ship locations. Press enter to continue")
+            self.players[i].ship_board.print()
+            while len(self.players[i].ships) != 4:
                 right_input = True
                 was_ship_added = False
                 input_coordinates = input("Please enter coordinates of your ship, \n" +
@@ -56,12 +60,13 @@ class Game:
                 print(f"It's {self.players[turn % 2].name} turn to shoot")
             else:
                 print(f"{self.players[turn % 2].name} shoots again")
-
+            self.players[turn % 2].game_board.print()
             aimed_coordinates = input("Where do you aim?\n")
             while not coordinate.check_coordinates(aimed_coordinates):
                 aimed_coordinates = input("Please enter valid coordinates:\n")
             
             result = self.players[turn % 2].validate_shot_against(aimed_coordinates, self.players[(turn + 1) % 2])
+            cmd_utils.clear()
             
             match result:
                 case shot_result.Shot_Result.MISSED:
