@@ -19,6 +19,7 @@ class Player:
         self.ship_board = board.Board()
         
     def add_ship(self, coordinates):
+        ship_to_add = ship.Ship(coordinates)
         if not ship.check_if_coordinates_are_valid_for_ship(coordinates):
             print("These are invalid coordinates for a ship")
             return
@@ -29,8 +30,11 @@ class Player:
             elif existingShip.size == len(coordinates):
                 print("You already have a ship this size!")
                 return False
+            elif existingShip.check_if_is_touching(ship_to_add):
+                print("Two ships cannot be touching!")
+                return False
             
-        self.ships.append(ship.Ship(coordinates))
+        self.ships.append(ship_to_add)
         self.ship_board.ship_at(coordinates)
         return True
         

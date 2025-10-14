@@ -13,7 +13,11 @@ class Game:
         self.has_ended = False
     
     def setup(self):
-        for i in range(2):
+        num_of_players = 2
+        if self.game_type != "a":
+            num_of_players = 1
+            
+        for i in range(num_of_players):
             name = input(f"Please enter name of player{i + 1}:\n ")
             self.players.append(player.Player(name, i))
             
@@ -40,8 +44,8 @@ class Game:
                             right_input &= False
                     if right_input:
                         was_ship_added = self.players[i].add_ship(splited_coordinates)
-                        if not was_ship_added:
-                            print("You either already have a ship at the inputed coordinates or you already have a ship of that size, please try again")
+                        if was_ship_added:
+                            print("Ship was succesfully added\n\n")
                     if not was_ship_added:        
                         right_input = True
                         input_coordinates = input("Please enter valid coordinates: \n")

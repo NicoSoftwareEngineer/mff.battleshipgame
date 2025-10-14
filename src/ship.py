@@ -39,6 +39,13 @@ class Ship:
             
         return False
     
+    def check_if_is_touching(self, ship):
+        is_touching = False
+        for coord in self.coordinates:
+            arr = [f"{coord.x_cor}{coord.y_cor}", f"{chr(ord(coord.x_cor)- 1)}{coord.y_cor}", f"{chr(ord(coord.x_cor) + 1)}{coord.y_cor}", f"{coord.x_cor}{chr(ord(coord.y_cor) + 1)}", f"{coord.x_cor}{chr(ord(coord.y_cor) - 1)}"]
+            is_touching |= ship.check_if_contains_coordinates(arr)
+        return is_touching
+    
     def __repr__(self):
         return f"Ship of size {self.size}, is {self.is_sunk} sunked, with these coordinates {self.coordinates}"
 
@@ -46,6 +53,9 @@ def check_if_coordinates_are_valid_for_ship(coordinates):
     last_coordinates_checked = ""
     direction = 0
     for coor in coordinates:
+        if not coordinate.check_coordinates(coor):
+            return False
+        
         match direction:
             case 1: #horizotnaly x-same y-bigger by one
                 if last_coordinates_checked[0] != coor[0]:
