@@ -7,7 +7,7 @@ def generate_random_ships_for_player(number_of_ships, player):
         was_ship_added = False
         while not was_ship_added:
             was_ship_added = player.add_ship(generate_random_ship_coordinates((2 + len(player.ships))))
-    cmd_utils.Utils.clear()
+    cmd_utils.clear()
 
 def generate_random_ship_coordinates(length):
     coordinates_valid = False

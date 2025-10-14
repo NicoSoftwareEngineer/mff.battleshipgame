@@ -49,25 +49,25 @@ class Board:
             for j in range(10):
                 tried_coordinate = coordinate.Coordinate(j, chr(i + 65))
                 if tried_coordinate in self.missed_coordinates:
-                    line += colors.ANSI.color_text(36) + " O " + colors.ANSI.color_text(37)
+                    line += colors.ANSI.color_text(" O ", 36)
                 elif tried_coordinate in self.hit_coordinates:
-                    line += colors.ANSI.color_text(31) + " X " + colors.ANSI.color_text(37)
+                    line += colors.ANSI.color_text(" X " , 31)
                 elif tried_coordinate in self.boat_coordinates:
-                    line += colors.ANSI.color_text(32) + " Ψ " + colors.ANSI.color_text(37)
+                    line += colors.ANSI.color_text(" Ψ ", 32)
                 else:
-                    line += colors.ANSI.color_text(34) + " ~ " + colors.ANSI.color_text(37)
+                    line += colors.ANSI.color_text(" ~ ", 34)
             line += "\t\t"
             line += f"{chr(i + 65) }"
             for j in range(10):
                 tried_coordinate = coordinate.Coordinate(j, chr(i + 65))
                 if tried_coordinate in second_board.missed_coordinates:
-                    line += colors.ANSI.color_text(36) + " O " + colors.ANSI.color_text(37)
+                    line += colors.ANSI.color_text(" O ", 36)
                 elif tried_coordinate in second_board.hit_coordinates:
-                    line += colors.ANSI.color_text(31) + " X " + colors.ANSI.color_text(37)
+                    line += colors.ANSI.color_text(" X " , 31)
                 elif tried_coordinate in second_board.boat_coordinates:
-                    line += colors.ANSI.color_text(32) + " Ψ " + colors.ANSI.color_text(37)
+                    line += colors.ANSI.color_text(" Ψ ", 32)
                 else:
-                    line += colors.ANSI.color_text(34) + " ~ " + colors.ANSI.color_text(37)
+                    line += colors.ANSI.color_text(" ~ ", 34)
             
             print(line)
 

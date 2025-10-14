@@ -1,20 +1,23 @@
 import ship
 import utils.shot_result as shot_result
+import utils.cmd_utils as cmd_utils
+import utils.coordinate as coordinate
+import utils.random_gen as rnd
 import board
 
 class Player:
     name = ""
     ships = []
-    order = 0
+    player_type = 0
     tried_coordinates = []
     game_board = None
     ship_board = None
     
-    def __init__(self, name, order):
+    def __init__(self, name, type):
         self.ships = []
         self.tried_coordinates = []
         self.name = name
-        self.order = order
+        self.player_type = type
         self.game_board = board.Board()
         self.ship_board = board.Board()
         
@@ -52,6 +55,13 @@ class Player:
         
         return result
     
+    def shoot_at(self, target_player):
+        print(f"{self} shoots at {target_player}")
+        if self.player_type == 0:
+            return human_turn([self, target_player])
+        else:
+            return computer_turn(self, target_player)
+    
     def did_shot_land(self, shot_coordinates):
         for ship in self.ships:
             result = ship.try_hit(shot_coordinates)
@@ -64,4 +74,43 @@ class Player:
         return not any(not x.is_sunk for x in self.ship)
     
     def __repr__(self):
-        return f"Player {self.name} with these ships {self.ships}"
+        return f"Player {self.name} of type {self.player_type}"
+    
+def human_turn(players):
+    players[0].game_board.print()
+    aimed_coordinates = input("Where do you aim?\n")
+    while not coordinate.check_coordinates(aimed_coordinates):
+        aimed_coordinates = input("Please enter valid coordinates:\n")
+    
+    result = players[0].validate_shot_against(aimed_coordinates, players[1])
+    cmd_utils.clear()
+    print(result)
+    match result:
+        case shot_result.Shot_Result.MISSED:
+            print("You MISSED!")
+            return True
+            
+        case shot_result.Shot_Result.TRIED:
+            print("You have already tried this coordinate please try again")
+            return False
+            
+        case shot_result.Shot_Result.HIT:
+            print("Success you have hit your opponents ship!")
+            return False
+        
+        case shot_result.Shot_Result.SINKED:
+            print("You have succesfully sinked your opponents ship")
+            return False
+    
+def computer_turn(computer, player):
+    coor_to_shoot_at = rnd.generate_random_coordinate()
+    result = True
+    
+    while result:
+        result = bool(computer.validate_shot_against(coor_to_shoot_at, player).value)
+        print(result)
+        coor_to_shoot_at = rnd.generate_random_coordinate()
+    
+    return True
+    
+        
