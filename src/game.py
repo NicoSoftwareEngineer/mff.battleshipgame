@@ -30,7 +30,7 @@ class Game:
                 right_input = True
                 was_ship_added = False
                 input_coordinates = input("Please enter coordinates of your ship, \n" +
-                                              "please enter them in the followint format: \n" +
+                                              "please enter them in the following format: \n" +
                                               "'1A 2A' for size 2, '3A 3B 3C 3D' for size 4. "+
                                               "Each player will have 4 ships of size 2, 3, 4, 5.\n")
                 while not was_ship_added:
@@ -86,10 +86,7 @@ class Game:
         turn = 0
         has_changed = True
         while not self.has_ended:
-            if has_changed:
-                print(f"It's {self.players[turn % 2].name} turn to shoot")
-            else:
-                print(f"{self.players[turn % 2].name} shoots again")
+            print(f"Turn: {self.players[turn % 2].name}")
             
             has_changed = self.players[turn % 2].shoot_at(self.players[(turn + 1) % 2])
             self.has_ended = any(all(s.is_sunk for s in p.ships) for p in self.players)

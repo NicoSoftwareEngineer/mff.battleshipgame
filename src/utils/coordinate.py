@@ -31,5 +31,3 @@ def check_coordinates(coordinates):
         return False
     
     return True
-    
-     

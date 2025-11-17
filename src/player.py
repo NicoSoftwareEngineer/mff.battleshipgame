@@ -5,6 +5,8 @@ import utils.coordinate as coordinate
 import utils.random_gen as rnd
 import utils.aimbot as aimbot
 import board
+import utils.colors as colors
+
 
 class Player:
     name = ""
@@ -60,7 +62,6 @@ class Player:
         return result
     
     def shoot_at(self, target_player):
-        print(f"{self} shoots at {target_player}")
         if self.player_type == 0:
             return human_turn([self, target_player])
         else:
@@ -90,7 +91,7 @@ def human_turn(players):
     cmd_utils.clear()
     match result:
         case shot_result.Shot_Result.MISSED:
-            print("You MISSED!")
+            print(colors.ANSI.color_text("You MISSED!", 36))
             return True
             
         case shot_result.Shot_Result.TRIED:
@@ -98,11 +99,11 @@ def human_turn(players):
             return False
             
         case shot_result.Shot_Result.HIT:
-            print("Success you have hit your opponents ship!")
+            print(colors.ANSI.color_text("Success you have hit your opponents ship!", 31))
             return False
         
         case shot_result.Shot_Result.SINKED:
-            print("You have succesfully sinked your opponents ship")
+            print(colors.ANSI.color_text("Success you have sinked your opponents ship!", 32))
             return False
 
 def computer_turn(computer, player, aim_bot):
