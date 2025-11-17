@@ -57,7 +57,7 @@ def check_if_coordinates_are_valid_for_ship(coordinates):
             return False
         
         match direction:
-            case 1: #horizotnaly x-same y-bigger by one
+            case 1: #vertically x-same y-bigger by one
                 if last_coordinates_checked[0] != coor[0]:
                     return False
                 if ord(last_coordinates_checked[1]) + 1 == ord(coor[1]):
@@ -65,7 +65,7 @@ def check_if_coordinates_are_valid_for_ship(coordinates):
                     continue
                 else:
                     return False
-            case 2: #horizotnaly x-same y-bigger by one
+            case 2: #horizotnaly y-same x-bigger by one
                 if last_coordinates_checked[1] != coor[1]:
                     return False
                 if ord(last_coordinates_checked[0]) + 1 == ord(coor[0]):

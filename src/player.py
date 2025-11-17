@@ -3,6 +3,7 @@ import utils.shot_result as shot_result
 import utils.cmd_utils as cmd_utils
 import utils.coordinate as coordinate
 import utils.random_gen as rnd
+import utils.aimbot as aimbot
 import board
 
 class Player:
@@ -18,8 +19,11 @@ class Player:
         self.tried_coordinates = []
         self.name = name
         self.player_type = type
+        if(type == 1):
+            self.aim_bot = aimbot.AimBot()
         self.game_board = board.Board()
         self.ship_board = board.Board()
+        
         
     def add_ship(self, coordinates):
         ship_to_add = ship.Ship(coordinates)
@@ -60,7 +64,7 @@ class Player:
         if self.player_type == 0:
             return human_turn([self, target_player])
         else:
-            return computer_turn(self, target_player)
+            return computer_turn(self, target_player, self.aim_bot)
     
     def did_shot_land(self, shot_coordinates):
         for ship in self.ships:
@@ -84,7 +88,6 @@ def human_turn(players):
     
     result = players[0].validate_shot_against(aimed_coordinates, players[1])
     cmd_utils.clear()
-    print(result)
     match result:
         case shot_result.Shot_Result.MISSED:
             print("You MISSED!")
@@ -101,16 +104,11 @@ def human_turn(players):
         case shot_result.Shot_Result.SINKED:
             print("You have succesfully sinked your opponents ship")
             return False
-    
-def computer_turn(computer, player):
-    coor_to_shoot_at = rnd.generate_random_coordinate()
+
+def computer_turn(computer, player, aim_bot):
     result = True
     
     while result:
-        result = bool(computer.validate_shot_against(coor_to_shoot_at, player).value)
-        print(result)
-        coor_to_shoot_at = rnd.generate_random_coordinate()
-    
+        result = aim_bot.fire_shot(computer, player)
+    computer.game_board.print()
     return True
-    
-        

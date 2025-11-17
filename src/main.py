@@ -5,6 +5,7 @@ import player
 import utils.colors as colors
 import utils.cmd_utils as cmd_utils
 import utils.random_gen as rnd_gen
+import utils.aimbot as aimbot
 
 cmd_utils.clear()
 

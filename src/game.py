@@ -71,7 +71,7 @@ class Game:
             else:
                 print(f"{self.players[turn % 2].name} shoots again")
             
-            has_changed = self.players[turn % 2].shoot_at(self.players[(turn % 2) + 1])
+            has_changed = self.players[turn % 2].shoot_at(self.players[(turn + 1) % 2])
             if has_changed:
                 turn += 1
             self.has_ended = any(all(s.is_sunk for s in p.ships) for p in self.players)
@@ -92,7 +92,6 @@ class Game:
                 print(f"{self.players[turn % 2].name} shoots again")
             
             has_changed = self.players[turn % 2].shoot_at(self.players[(turn + 1) % 2])
-            print(has_changed)
             self.has_ended = any(all(s.is_sunk for s in p.ships) for p in self.players)
             if has_changed and not self.has_ended:
                 turn += 1

@@ -21,6 +21,9 @@ class Coordinate:
         return False
 
 def check_coordinates(coordinates):
+    if len(coordinates) != 2:
+        return False
+    
     if ord(coordinates[0]) < 48 or ord(coordinates[0]) > 57:
         return False
     
