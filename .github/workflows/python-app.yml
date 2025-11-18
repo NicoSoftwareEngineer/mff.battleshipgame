@@ -44,4 +44,4 @@ jobs:
       if: always()  # Run this even if tests fail
       with:
         files: |
-          test-results.xml
+          ./src/test-results.xml
