@@ -1,3 +1,10 @@
+"""Small CLI entry point to start a Battleship match.
+
+This module collects the preferred game mode from the user, constructs a
+`Game` instance and runs setup and play. It is intended to be executed as
+the program's main script.
+"""
+
 import utils.coordinate as coor
 import game
 import ship
