@@ -2,18 +2,17 @@
 
 ## Problem & Overall Approach
 - **Goal**: deliver a fully playable Battleship experience in the terminal, supporting human-vs-human and human-vs-computer matches.
-- **Approach**: keep the core loop simple (`Game` orchestrates setup/play), encapsulate gameplay rules in `Player`, `Ship`, and `Board`, and isolate utilities (coordinates, colors, RNG, AI) in `src/utils`.
+- **Approach**: keep the core loop simple (`Game` orchestrates setup/play), encapsulate gameplay rules in `Player`, `Ship`, and `Board`, and isolate utilities (coordinates, colors, RNG, computer logic) in `src/utils`.
 
 ## Environment & Tooling
 - **Python**: 3.10+ (uses only standard library).
 - **Recommended shell**: Windows PowerShell or Windows Terminal (ANSI colors enabled).
-- **Dependencies**: none beyond Python. Optional formatters/linters (e.g., `black`, `ruff`) can be installed manually.
+- **Dependencies**: none beyond Python.
 
 ### Quick setup
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -U pip
 # (No runtime dependencies yet)
 ```
 
@@ -32,11 +31,12 @@ src/
     coordinate.py  # Coordinate value object & parsing helpers
     random_gen.py  # Random placement utilities
     shot_result.py # Enum describing shot outcomes
+  test_*.py        # Tests for classes and methods
 ```
 
 ## Execution Flow
 1. `main.py` clears the terminal, prompts for game type (`a` vs human, `b` vs computer), then instantiates `Game`.
-2. `Game.setup()` collects player names, handles manual ship placement (with validation) or uses `random_gen.generate_random_ships_for_player` for the AI.
+2. `Game.setup()` collects player names, handles manual ship placement (with validation) or uses `random_gen.generate_random_ships_for_player` for the computer.
 3. `Game.play()` dispatches to `two_player_game` or `agains_computer` which:
    - rotates turns,
    - calls `Player.shoot_at()` (human input or `AimBot.fire_shot`),
@@ -56,7 +56,7 @@ src/
 - Boards store coordinates as `Coordinate` objects; always convert before equality checks.
 
 ## Testing & Debugging
-- **Existing unit tests** live alongside the main modules: see `src/test_coordinate.py` and `src/test_ship.py`. Add more `test_*.py` files in `src/` to expand coverage.
+- **Existing unit tests** live alongside the main modules: see `src/test_coordinate.py` and `src/test_ship.py`.
 - **Run tests with pytest** once it is installed in the active virtual environment:
 
 ```powershell
