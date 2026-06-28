@@ -50,6 +50,14 @@ src/
 - **AimBot (`utils.aimbot.AimBot`)**: stores last hits, deduces direction, and searches until a ship is sunk; falls back to random coordinates via `utils.random_gen`.
 - **ShotResult (`utils.shot_result.Shot_Result`)**: enum for `MISSED`, `HIT`, `SINKED`, `TRIED`. Used throughout to control turn flow.
 
+## AimBot game tactic
+- The **AimBot (`utils.aimbot.AimBot`)** has a simle tactic which he uses:
+  1. When he has no shots, in which he hit the opponents boat, a random coordinate is generated.
+  2. After he hit opponents boat he first tries the coordinates right next to the last hit. (left, right, up, down)
+  3. When the second shot is hit, the aimbot determines the direction in which the boat is directed (horizontal/vertical)
+  4. Then he shoots in one direction (right/up), until he misses and the direction gets flipped (left/down).
+  5. After the boat has sunk, the current tactic is reset.
+
 ## Coordinate & Input Rules
 - Coordinates are strings with digit + uppercase letter (e.g., `3A`).
 - Validation lives in `utils.coordinate.check_coordinates` and is reused for ship placement and firing input.
